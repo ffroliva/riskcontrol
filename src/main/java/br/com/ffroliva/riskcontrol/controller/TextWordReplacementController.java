@@ -39,7 +39,7 @@ public class TextWordReplacementController {
         }
     }
 
-    @RequestMapping("/text/replace/{word1}/word2")
+    @RequestMapping("/text/replace/{word1}/{word2}")
     public ResponseEntity<String>
     replaceWords(@PathVariable(value = "word1") String word1, @PathVariable(value = "word2") String word2) {
         try {
