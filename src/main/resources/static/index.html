@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Intercom</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/app/app.css"/>
+</head>
+<body ng-app="app">
+<nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Intercom</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid" ng-controller="CustomerController as vm">
+    <div class="row">
+        <div class="jumbotron">
+            <div class="container-fluid">
+                <h1>Welcome!</h1>
+                <p>Dublin's office Geo Location - <span class="bold">Latitude:</span> 53.339428 <span class="bold">Longitude:</span>
+                    -6.257664</p>
+                <p><a href="" ng-click="vm.getAllCustomers()" class="btn btn-success btn-lg">Show customers</a></p>
+                <p><a href="" ng-click="vm.getCustomersWithinDistance()" class="btn btn-success btn-lg">Show customers
+                    within 100 km</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="customers">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Full Name</th>
+                            <th ng-if="customers[0].latitude">Latitude</th>
+                            <th ng-if="customers[0].longitude">Longitude</th>
+                            <th ng-if="customers[0].distance">Distance</th>
+                            <th ng-if="customers[0].distance_unit">Distance Unit</th>
+                        </tr>
+                        </thead>
+                        <tbody ng-repeat="c in customers">
+                        <tr>
+                            <td>{{c.user_id}}</td>
+                            <td>{{c.name}}</td>
+                            <td ng-if="c.latitude">{{c.latitude}}</td>git
+                            <td ng-if="c.longitude">{{c.latitude}}</td>
+                            <td ng-if="c.distance">{{c.distance | number : 3}}</td>
+                            <td ng-if="c.distance_unit">{{c.distance_unit}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <footer>
+                <p>&copy; Copyright 2018 Flavio Oliva</p>
+            </footer>
+        </div>
+    </div>
+</div>
+</body>
+<script src="js/app/app.js"></script>
+<script src="js/app/customer/CustomerService.js"></script>
+<script src="js/app/customer/CustomerController.js"></script>
+
+
+</html>
