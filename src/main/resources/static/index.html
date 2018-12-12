@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Intercom</title>
+    <title>RiskControl</title>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="js/lib/angular.min.js"></script>
     <script src="js/lib/bootstrap.min.js"></script>
@@ -22,7 +22,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Intercom</a>
+            <a class="navbar-brand" href="#">Risk Control</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -32,45 +32,30 @@
         </div>
     </div>
 </nav>
-<div class="container-fluid" ng-controller="CustomerController as vm">
+<div class="container-fluid" ng-controller="TextController as vm">
     <div class="row">
         <div class="jumbotron">
             <div class="container-fluid">
                 <h1>Welcome!</h1>
-                <p>Dublin's office Geo Location - <span class="bold">Latitude:</span> 53.339428 <span class="bold">Longitude:</span>
-                    -6.257664</p>
-                <p><a href="" ng-click="vm.getAllCustomers()" class="btn btn-success btn-lg">Show customers</a></p>
-                <p><a href="" ng-click="vm.getCustomersWithinDistance()" class="btn btn-success btn-lg">Show customers
-                    within 100 km</a></p>
+                <p><a href="" ng-click="vm.readFile()" class="btn btn-success btn-lg">Click here to read the text file</a></p>
+                <p><a href="" ng-click="vm.replaceWordsFromFile()" class="btn btn-success btn-lg">Replace words</a></p>
+                Word to replace: <input type="input" ng-model="vm.word1" /></br>
+                Word to be replaced with: <input type="input" ng-model="vm.word2" />
             </div>
         </div>
     </div>
-    <div class="row" ng-if="customers">
+    <div class="row" ng-if="vm.error">
+        <div class="col-xs-12">
+            <div class="alert alert-danger" role="alert">
+                {{vm.error}}
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="vm.text">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-12">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Full Name</th>
-                            <th ng-if="customers[0].latitude">Latitude</th>
-                            <th ng-if="customers[0].longitude">Longitude</th>
-                            <th ng-if="customers[0].distance">Distance</th>
-                            <th ng-if="customers[0].distance_unit">Distance Unit</th>
-                        </tr>
-                        </thead>
-                        <tbody ng-repeat="c in customers">
-                        <tr>
-                            <td>{{c.user_id}}</td>
-                            <td>{{c.name}}</td>
-                            <td ng-if="c.latitude">{{c.latitude}}</td>git
-                            <td ng-if="c.longitude">{{c.latitude}}</td>
-                            <td ng-if="c.distance">{{c.distance | number : 3}}</td>
-                            <td ng-if="c.distance_unit">{{c.distance_unit}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    {{vm.text}}
                 </div>
             </div>
         </div>
@@ -88,8 +73,8 @@
 </div>
 </body>
 <script src="js/app/app.js"></script>
-<script src="js/app/customer/CustomerService.js"></script>
-<script src="js/app/customer/CustomerController.js"></script>
+<script src="js/app/text/TextService.js"></script>
+<script src="js/app/text/TextController.js"></script>
 
 
 </html>

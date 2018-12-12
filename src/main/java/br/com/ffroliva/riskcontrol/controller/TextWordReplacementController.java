@@ -28,7 +28,7 @@ public class TextWordReplacementController {
     @Autowired
     FileReaderService fileReaderService;
 
-    @RequestMapping("/text")
+    @RequestMapping(value="/text", produces = "plain/text")
     public ResponseEntity<String> fetchWords() {
         try {
             return ResponseEntity.ok().body(fileReaderService.readFile());
@@ -39,7 +39,7 @@ public class TextWordReplacementController {
         }
     }
 
-    @RequestMapping("/text/replace/{word1}/{word2}")
+    @RequestMapping(value="/text/replace/{word1}/{word2}", produces = "plain/text")
     public ResponseEntity<String>
     replaceWords(@PathVariable(value = "word1") String word1, @PathVariable(value = "word2") String word2) {
         try {
