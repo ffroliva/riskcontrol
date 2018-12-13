@@ -5,9 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>RiskControl</title>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="js/lib/angular.min.js"></script>
-    <script src="js/lib/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/app/app.css"/>
 </head>
@@ -32,7 +29,7 @@
         </div>
     </div>
 </nav>
-<div class="container-fluid" ng-controller="TextController as vm">
+<div class="container-fluid" ng-controller="TextController as vm" ng-cloak>
     <div class="row">
         <div class="jumbotron">
             <div class="container-fluid">
@@ -80,9 +77,11 @@
     </div>
 </div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="js/lib/angular.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
 <script src="js/app/app.js"></script>
 <script src="js/app/text/TextService.js"></script>
 <script src="js/app/text/TextController.js"></script>
-
 
 </html>
