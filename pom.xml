@@ -76,12 +76,6 @@
             <version>${io.cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>br.com.ffroliva</groupId>
-            <artifactId>riskcontrol</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
