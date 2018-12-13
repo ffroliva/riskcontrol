@@ -4,7 +4,7 @@ app.controller("TextController", function TextController($scope, TextService) {
         var vm = this;
         
         // attributes
-        vm.text = {};
+        vm.text = null;
         vm.word1 = '';
         vm.word2 = '';
         vm.error = '';

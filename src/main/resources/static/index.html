@@ -36,26 +36,34 @@
     <div class="row">
         <div class="jumbotron">
             <div class="container-fluid">
-                <h1>Welcome!</h1>
-                <p><a href="" ng-click="vm.readFile()" class="btn btn-success btn-lg">Click here to read the text file</a></p>
-                <p><a href="" ng-click="vm.replaceWordsFromFile()" class="btn btn-success btn-lg">Replace words</a></p>
-                Word to replace: <input type="input" ng-model="vm.word1" /></br>
-                Word to be replaced with: <input type="input" ng-model="vm.word2" />
-            </div>
-        </div>
-    </div>
-    <div class="row" ng-if="vm.error">
-        <div class="col-xs-12">
-            <div class="alert alert-danger" role="alert">
-                {{vm.error}}
-            </div>
-        </div>
-    </div>
-    <div class="row" ng-if="vm.text">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-12">
-                    {{vm.text}}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h1>Welcome!</h1>
+                        <p><a href="" ng-click="vm.readFile()" class="btn btn-success btn-lg">Click here to read the text file</a></p>
+                    </div>
+                    <div class="col-xs-4" ng-if="vm.text">
+                        <form>
+                            <div class="form-group">
+                                <label for="word1">Word 1:</label>
+                                <input type="input" class="form-control" id="word1" placeholder="Enter word to be replaced" ng-model="vm.word1" />
+                            </div>
+                            <div class="form-group">
+                                <label for="word2">Word 2:</label>
+                                <input type="input" class="form-control" id="word2" placeholder="Enter word to be replaced with" ng-model="vm.word2" />
+                            </div>
+                            <p><a href="" ng-click="vm.replaceWordsFromFile()" class="btn btn-success btn-lg">Replace words</a></p>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" ng-if="vm.error">
+                        <div class="alert alert-danger" role="alert">
+                            {{vm.error}}
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        {{vm.text}}
+                    </div>
                 </div>
             </div>
         </div>
