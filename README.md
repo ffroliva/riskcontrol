@@ -38,6 +38,15 @@ All the lines are concat to previews one.
 *Description:* This URL takes two inputs and searches all the occurrences of the word1
 and replace by the word2 in a text read from a resource file.
 
+## Closest Enemy II
+
+I used junit to test the most use cases from the matrix problem.
+To see the result check run the flowing command.
+
+```
+mvn -Dtest=br/com/ffroliva/riskcontrol/service/MatrixServiceTest test
+```
+
 ## Enviroment
 
 - OS: Windows 10
@@ -45,5 +54,5 @@ and replace by the word2 in a text read from a resource file.
 - Maven
 - Git
 - Java 8
-- Front-end: Angular 1.7
+- Front-end: Angular 1.7.5
 - Css: Bootstrap 3.3.7
