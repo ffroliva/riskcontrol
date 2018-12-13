@@ -25,6 +25,7 @@ mvn spring-boot:run
 
 Front-end entry point: http://localhost:8080
 
+
 ## Available API URLs
 
 - http://localhost:8080/text
@@ -36,3 +37,13 @@ All the lines are concat to previews one.
 
 *Description:* This URL takes two inputs and searches all the occurrences of the word1
 and replace by the word2 in a text read from a resource file.
+
+## Enviroment
+
+- OS: Windows 10
+- IDE: IntelliJ 2018.3
+- Maven
+- Git
+- Java 8
+- Front-end: Angular 1.7
+- Css: Bootstrap 3.3.7

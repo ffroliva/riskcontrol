@@ -1,12 +1,10 @@
 package br.com.ffroliva.riskcontrol.service.impl;
 
-import br.com.ffroliva.riskcontrol.RiskControlApplication;
 import br.com.ffroliva.riskcontrol.exceptions.RiskControlBusinessException;
 import br.com.ffroliva.riskcontrol.service.MatrixService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 @Slf4j
 public class MatrixServiceImpl implements MatrixService {
@@ -14,9 +12,7 @@ public class MatrixServiceImpl implements MatrixService {
     public static final String MY_CHAR = "1";
     public static final String ENEMY_CHAR = "2";
 
-    private int minColumIndex = 0;
     private int maxColumIndex = 0;
-    private int minLineIndex = 0;
     private int maxLineIndex = 0;
 
 
@@ -26,7 +22,7 @@ public class MatrixServiceImpl implements MatrixService {
         Arrays.stream(strArr).forEach(log::debug);
         //Map<Integer,Integer> myPosition = mapMyPosition(strArr);
         int[][] myPosition = myPosition(strArr);
-        log.debug(String.format("My index position is: %s", myPosition));
+        log.debug(String.format("My index position is: [%s][%s]", myPosition[0][0],myPosition[0][1]));
         Map<Integer, List<Integer>> enemiesIndexPositions = null;
         try {
             enemiesIndexPositions = enemiesIndexPositions(strArr);
@@ -35,48 +31,92 @@ public class MatrixServiceImpl implements MatrixService {
             return 0;
         }
         log.debug(String.format("My enemies index position is: %s", enemiesIndexPositions));
-        maxColumIndex = strArr[0].length()-1;
-        log.debug(String.format("Max Column index: %s",maxColumIndex));
-        maxLineIndex = strArr.length-1;
-        log.debug((String.format("Max Line index: %s",maxLineIndex)));
+        maxColumIndex = strArr[0].length() - 1;
+        log.debug(String.format("Max Column index: %s", maxColumIndex));
+        maxLineIndex = strArr.length - 1;
+        log.debug((String.format("Max Line index: %s", maxLineIndex)));
 
-        return searchClosestEnemy(myPosition,enemiesIndexPositions,maxLineIndex, maxColumIndex);
+        return searchClosestEnemy(myPosition, enemiesIndexPositions, maxLineIndex, maxColumIndex);
     }
 
     private int searchClosestEnemy(int[][] myPosition, Map<Integer, List<Integer>> enemiesIndexPositions, int maxLineIndex, int maxColumIndex) {
+        int minColumIndex = 0;
+        int minLineIndex = 0;
         int closestEnemy = 0;
-        int countColudmnDistance = 0;
-        int countLineDistance = 0;
-        for(Map.Entry<Integer,List<Integer>> enemyPosition : enemiesIndexPositions.entrySet()){
-            int enemyLineIndex = enemyPosition.getKey();
-            int enemyColumIndex = 0;
-            int myLineIndex = myPosition[0][0];
-            int myColumIndex = myPosition[0][1];
-            for(int i = 0; i < enemiesIndexPositions.get(enemyLineIndex).size(); i++){
+        int columnDistance = 0;
+        int lineDistance = 0;
+        int columnMidDistance = (maxColumIndex + 1) / 2;
+        int lineMidDistance = (maxLineIndex + 1) / 2;
+        int enemyLineIndex = 0;
+        int enemyColumIndex = 0;
+        int myLineIndex = 0;
+        int myColumIndex = 0;
+        int lateralDistance = 0;
+        int depthDistance = 0;
+        for (Map.Entry<Integer, List<Integer>> enemyPosition : enemiesIndexPositions.entrySet()) {
+            enemyLineIndex = enemyPosition.getKey();
+            myLineIndex = myPosition[0][0];
+            myColumIndex = myPosition[0][1];
+            for (int i = 0; i < enemiesIndexPositions.get(enemyLineIndex).size(); i++) {
                 enemyColumIndex = enemiesIndexPositions.get(enemyLineIndex).get(i);
-                if(enemyColumIndex > myColumIndex){
-                    countColudmnDistance = enemyColumIndex - myColumIndex;
-                } else {
-                    countColudmnDistance = myColumIndex - enemyColumIndex;
-                }
-                if(enemyLineIndex > myLineIndex){
-                    countLineDistance = enemyLineIndex - myLineIndex;
-                }
-                if(closestEnemy == 0) {
-                    closestEnemy = countColudmnDistance + countLineDistance;
-                } else if(closestEnemy < (countColudmnDistance + countLineDistance)){
-                    closestEnemy = countColudmnDistance + countLineDistance;
+                lateralDistance = Math.abs(enemyColumIndex - myColumIndex);
+                columnDistance = getDistance(
+                        enemyColumIndex,
+                        maxColumIndex,
+                        minColumIndex,
+                        columnMidDistance,
+                        myColumIndex,
+                        lateralDistance);
+
+                depthDistance = Math.abs(enemyLineIndex - myLineIndex);
+                lineDistance = getDistance(
+                        enemyLineIndex,
+                        maxLineIndex,
+                        minLineIndex,
+                        lineMidDistance,
+                        myLineIndex,
+                        depthDistance);
+
+                if (closestEnemy == 0) {
+                    closestEnemy = columnDistance + lineDistance;
+                } else if (closestEnemy > (columnDistance + lineDistance)) {
+                    closestEnemy = columnDistance + lineDistance;
                 }
             }
         }
+        log.debug(String.format("Closest Enemy: %s",closestEnemy));
         return closestEnemy;
     }
 
-    private Map<Integer,Integer> mapMyPosition(String[] strArray) {
+    private int getDistance(int enemyIndex,
+                            int maxIndex,
+                            int minIndex,
+                            int midIndex,
+                            int myIndex,
+                            int distanceFromEnemy) {
+        int shortesPath = 0;
+        if (midIndex+1 > distanceFromEnemy) {
+            shortesPath = distanceFromEnemy;
+        } else {
+            shortesPath = midIndex -1;
+        }
+        if (enemyIndex == maxIndex
+                && myIndex == minIndex) {
+            shortesPath = 1;
+        }
+        // mid distance ether way
+        if (midIndex == distanceFromEnemy) {
+            shortesPath = midIndex;
+        }
+
+        return shortesPath;
+    }
+
+    private Map<Integer, Integer> mapMyPosition(String[] strArray) {
         Map<Integer, Integer> myPosition = new HashMap<>();
         for (int i = 0; i < strArray.length; i++) {
             if (strArray[i].contains(MY_CHAR)) {
-                myPosition.put(i,strArray[i].indexOf(MY_CHAR));
+                myPosition.put(i, strArray[i].indexOf(MY_CHAR));
                 return myPosition;
             }
         }
@@ -92,6 +132,7 @@ public class MatrixServiceImpl implements MatrixService {
         }
         throw new IllegalArgumentException("Invalid matrix. There matrix should have at list one char 1");
     }
+
     private Map<Integer, List<Integer>> enemiesIndexPositions(String[] strArr) throws RiskControlBusinessException {
         Map<Integer, List<Integer>> enemiesIndexPositions = new HashMap<>();
         List<Integer> indexPositions = new ArrayList<>();
